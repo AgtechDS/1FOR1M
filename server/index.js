@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const Stripe = require('stripe');
 const { createClient } = require('@supabase/supabase-js');
@@ -31,7 +32,7 @@ app.post('/api/create-checkout-session', async (req, res) => {
             name: `1FOR1M — ${quantity} Lot${quantity > 1 ? 's' : ''}`,
             description: `Lot numbers: ${lotNumbers.slice(0, 5).join(', ')}${lotNumbers.length > 5 ? '...' : ''}`,
           },
-          unit_amount: pricePerLot * 100, // cents
+          unit_amount: pricePerLot * 100,
         },
         quantity: quantity,
       }],
@@ -78,7 +79,6 @@ async function handleCheckoutCompleted(session) {
   const quantity = parseInt(metadata.quantity || '0');
 
   try {
-    // Mark lots as sold
     await supabase
       .from('lots')
       .update({
@@ -88,7 +88,6 @@ async function handleCheckoutCompleted(session) {
       })
       .in('lot_number', lotNumbers);
 
-    // Create purchase record
     await supabase
       .from('purchases')
       .insert({
@@ -106,5 +105,8 @@ async function handleCheckoutCompleted(session) {
   }
 }
 
+// Health check
+app.get('/health', (req, res) => res.json({ status: 'ok' }));
+
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`1FOR1M server running on port ${PORT}`));
