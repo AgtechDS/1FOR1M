@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1FOR1M — 1 Million Lots at 1€</title>
+<meta name="description" content="1 million lots at 1€ each. Buy, own, upload media.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Anton&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+  <!-- Login Screen -->
+  <div id="login-screen" class="login-screen">
+    <div class="login-card">
+      <div class="login-logo">1FOR1M</div>
+      <p class="login-subtitle">1,000,000 LOTS · 1€ EACH</p>
+      <button id="google-login" class="btn-google">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#EA4335" d="M12 10.2v3.9h5.5c-.24 1.4-1.7 4.1-5.5 4.1-3.3 0-6-2.7-6-6.1s2.7-6.1 6-6.1c1.9 0 3.1.8 3.8 1.5l2.6-2.5C16.7 3.7 14.6 3 12 3 7.3 3 3.5 6.8 3.5 12.1S7.3 21 12 21c5.2 0 8.1-3.4 8.1-8.1 0-.5-.1-1-.2-1.5H12z"/></svg>
+        Sign in with Google
+      </button>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div id="main-app" class="main-app" style="display:none">
+    <header class="navbar">
+      <div class="brand">1FOR1M</div>
+      <div class="nav-info">
+        <span id="user-email" class="user-email"></span>
+        <button id="logout" class="btn-logout">OUT</button>
+      </div>
+    </header>
+
+    <div class="stats-bar">
+      <div class="stat"><span class="stat-label">LOTS</span><span class="stat-value" id="stat-total">1,000,000</span></div>
+      <div class="stat"><span class="stat-label">AVAILABLE</span><span class="stat-value" id="stat-available">1,000,000</span></div>
+      <div class="stat"><span class="stat-label">SOLD</span><span class="stat-value" id="stat-sold">0</span></div>
+      <div class="stat"><span class="stat-label">PRICE</span><span class="stat-value">1€</span></div>
+    </div>
+
+    <div class="grid-container">
+      <div id="grid" class="grid"></div>
+      <div class="grid-overlay" id="grid-overlay" style="display:none">
+        <div class="media-viewer">
+          <button class="media-close" id="media-close">&times;</button>
+          <div id="media-content"></div>
+          <div class="media-info">
+            <span class="media-lot">LOT #<span id="media-lot-num">000000</span></span>
+            <span class="media-status" id="media-status">AVAILABLE</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="selection-bar" id="selection-bar" style="display:none">
+      <div class="selection-info">
+        <span id="selection-count">0</span> lots selected
+      </div>
+      <div class="selection-total">Total: <span id="selection-total">0</span>€</span>
+      <div class="selection-actions">
+        <button id="clear-selection" class="btn-ghost">Clear</button>
+        <button id="buy-selected" class="btn-primary">Buy Now</button>
+      </div>
+    </div>
+
+    <div class="quantity-modal" id="quantity-modal" style="display:none">
+      <div class="quantity-modal-content">
+        <h3>Checkout</h3>
+        <div class="quantity-selector">
+          <label>Quantity:</label>
+          <div class="qty-controls">
+            <button id="qty-minus">&minus;</button>
+            <input type="number" id="qty-input" value="1" min="1" max="100">
+            <button id="qty-plus">+</button>
+          </div>
+          <div class="checkout-total">Total: <span id="checkout-total">1</span>€</div>
+        </div>
+        <div class="checkout-actions">
+          <button id="checkout-cancel" class="btn-ghost">Cancel</button>
+          <button id="checkout-confirm" class="btn-primary">Pay with Stripe</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="app.js"></script>
+</body>
+</html>
